@@ -23,11 +23,13 @@ jobs:
         override: true
     - name: Build
       run: cargo +nightly build --release
-    - name: Upload the artifacts
-      uses: skx/github-action-publish-binaries@master
-      with:
-        releaseId: ${{ needs.create_release.outputs.id }}
-        args: "target/release/cli"
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Release
+      uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: nightly-build-${{ steps.date.outputs.date }}
+          prerelease: true
+          title: "Development Build"
+          files: |
+            target/release/cli
 
