@@ -1,0 +1,33 @@
+name: release
+on:
+  push:
+    branches:
+      - main
+      - "chore/add_package_publish"
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  build:
+    name: release ${{ matrix.target }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        target: [x86_64-pc-windows-gnu, x86_64-unknown-linux-musl]
+    steps:
+    - uses: actions/checkout@v3
+      with: 
+        submodules: recursive
+    - uses: actions-rs/toolchain@v1
+      with:
+        toolchain: nightly
+        components: clippy
+        override: true
+    - name: Compile and release
+      uses: rust-build/rust-build.action@v1.3.2
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        RUSTTARGET: ${{ matrix.target }}
