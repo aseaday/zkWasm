@@ -25,11 +25,11 @@ jobs:
       run: cargo +nightly build --release
     - name: Release
       uses: "marvinpinto/action-automatic-releases@latest"
-        with:
-          repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          automatic_release_tag: nightly-build-${{ steps.date.outputs.date }}
-          prerelease: true
-          title: "Development Build"
-          files: |
-            target/release/cli
+      with:
+        repo_token: "${{ secrets.GITHUB_TOKEN }}"
+        automatic_release_tag: nightly-build-${{ steps.date.outputs.date }}
+        prerelease: true
+        title: "Development Build"
+        files: |
+          target/release/cli
 
