@@ -24,8 +24,10 @@ jobs:
         toolchain: nightly
         components: clippy
         override: true
-    # - name: Build
-    #   run: cargo +nightly build --release
+    - name: Build
+      run: cargo +nightly build --release
+    - name: Package
+      run: tar cf zkwasm-cli-nightly-build-Linux_x86_64.tar -C target/release cli
     - name: Release
       uses: "marvinpinto/action-automatic-releases@latest"
       with:
@@ -34,5 +36,5 @@ jobs:
         prerelease: true
         title: "Development Build"
         files: |
-          README.md
+          zkwasm-cli-nightly-build-Linux_x86_64.tar
 
